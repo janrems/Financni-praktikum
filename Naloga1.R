@@ -12,4 +12,13 @@ tabela_08 <- tabela_08[,(1:15)]
 tabela_09 <- tabela_09[,(1:15)]
 tabela_10 <- tabela_10[,(1:15)]
 
-colnames(tabela_08) <- as.numeric(tabela_08[2,])
+colnames(tabela_08) <- as.character(unname(unlist(tabela_08[1,])))
+colnames(tabela_09) <- as.character(unname(unlist(tabela_09[1,])))
+colnames(tabela_10) <- as.character(unname(unlist(tabela_10[1,])))
+
+tabela_08 <- tabela_08[-1,]
+tabela_09 <- tabela_09[-1,]
+tabela_10 <- tabela_10[-1,]
+
+prvi_dnevi_08 <- grep()
+
