@@ -20,5 +20,42 @@ tabela_08 <- tabela_08[-1,]
 tabela_09 <- tabela_09[-1,]
 tabela_10 <- tabela_10[-1,]
 
-prvi_dnevi_08 <- grep()
+prvi_dnevi_08 <- c(rownames(tabela_08)[1])
+mesec <- "01"
+for (dan in rownames(tabela_08)){
+  vzorec1 <- paste(".*/", mesec,"/.*", sep = "")
+  vzorec2 <- ".*/(.*)/.*"
+  if (grepl(vzorec1,dan) == FALSE){
+    mesec <- sub(vzorec2, "\\1", dan,perl=TRUE)
+    prvi_dnevi_08 <- c(prvi_dnevi_08, dan)
+  }
+}
+tabela_08 <- tabela_08[prvi_dnevi_08,]
+
+prvi_dnevi_09<- c(rownames(tabela_09)[1])
+mesec <- "01"
+for (dan in rownames(tabela_09)){
+  vzorec1 <- paste(".*/", mesec,"/.*", sep = "")
+  vzorec2 <- ".*/(.*)/.*"
+  if (grepl(vzorec1,dan) == FALSE){
+    mesec <- sub(vzorec2, "\\1", dan,perl=TRUE)
+    prvi_dnevi_09 <- c(prvi_dnevi_09, dan)
+  }
+}
+tabela_09 <- tabela_09[prvi_dnevi_09,]
+
+
+prvi_dnevi_10 <- c(rownames(tabela_10)[1])
+mesec <- "01"
+for (dan in rownames(tabela_10)){
+  vzorec1 <- paste(".*/", mesec,"/.*", sep = "")
+  vzorec2 <- ".*/(.*)/.*"
+  if (grepl(vzorec1,dan) == FALSE){
+    mesec <- sub(vzorec2, "\\1", dan,perl=TRUE)
+    prvi_dnevi_10 <- c(prvi_dnevi_10, dan)
+  }
+}
+tabela_10 <- tabela_10[prvi_dnevi_10,]
+tabela_10 <- tabela_10[-13,]
+
 
