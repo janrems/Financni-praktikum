@@ -12,9 +12,9 @@ tabela_08 <- tabela_08[,(1:15)]
 tabela_09 <- tabela_09[,(1:15)]
 tabela_10 <- tabela_10[,(1:15)]
 
-colnames(tabela_08) <- as.character(unname(unlist(tabela_08[1,])))
+colnames(tabela_08) <- as.character(unname(unlist(tabela_08[1,])))  
 colnames(tabela_09) <- as.character(unname(unlist(tabela_09[1,])))
-colnames(tabela_10) <- as.character(unname(unlist(tabela_10[1,])))
+colnames(tabela_10) <- as.character(unname(unlist(tabela_10[1,])))  
 
 tabela_08 <- tabela_08[-1,]
 tabela_09 <- tabela_09[-1,]
@@ -90,19 +90,39 @@ obrestne_3 <- as.numeric(unname(unlist(tabela_zdruzena[27,])))
 tabela_datumi <- data.frame(casovni_razmik,obrestne_1,obrestne_2, obrestne_3)
 tabela_datumi1 <- melt(tabela_zdruzena)
 
-graf_1.2.08 <- plot(casovni_razmik,obrestne_1, type = "l", main = "Krivulja obrestnih mer, dne 01.02.2008", xlab = "Čas dospelosti v mesecih", ylab = "Obrestna mera", col = "red", lwd = 3)
-lines(casovni_razmik,obrestne_2,col="green")
-lines(casovni_razmik,obrestne_3, col"blue")
+graf_1.2.08 <- plot(casovni_razmik,obrestne_1, type = "l" , ylim=c(min(0),max(5.5)), main = "Krivulja obrestnih mer, dne 01.02.2008", xlab = "Čas dospelosti v mesecih", ylab = "Obrestna mera", col = "red", lwd = 3)
+lines(casovni_razmik,obrestne_2, col = "blue", lwd = 3)
+lines(casovni_razmik,obrestne_3, col = "green", lwd = 3)
 
 graf_3.3.08 <- plot(casovni_razmik,obrestne_2, type = "l", main = "Krivulja obrestnih mer, dne 03.03.2008", xlab = "Čas dospelosti v mesecih", ylab = "Obrestna mera", col = "red", lwd = 3)
 
 graf_1.3.10 <- plot(casovni_razmik,obrestne_3, type = "l", main = "Krivulja obrestnih mer, dne 03.03.2008", xlab = "Čas dospelosti v mesecih", ylab = "Obrestna mera", col = "red", lwd = 3)
 
 
+#3. naloga
+
+#a
+
+sest <- as.numeric(tabela_zdruzena$`6m`)
+leto <- as.numeric(tabela_zdruzena$`12m`)
 
 
+terminska_6x12 <- 2*((rep(1,36) + 1*leto)/(rep(1,36) + 1/2*sest)-rep(1,36))
 
+tabela_zdruzena <- cbind(tabela_zdruzena,terminska_6x12)
 
+#b
+
+terminska_primerjava <- terminska_6x12[1:29]
+
+tabela_primerjava <- tabela_zdruzena[7:36,9:10]
+
+tabela_primerjava <- cbind(tabela_primerjava,terminska_primerjava)
+
+tabela_primerjava <- tabela_primerjava[,-2]
+colnames(tabela_primerjava) <- c("Euribor6m", "Napoved6m")
+
+#c
 
 
 
