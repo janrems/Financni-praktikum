@@ -1,6 +1,9 @@
-
-
 #PRVA DOMAČA NALOGA
+
+# Opomba: Knižnjice, ki so potrebne za delovanje programa, so v mapi lib in datoteki libaries. Predlagam da skripto v celoti poženete.  #
+# Tabele bi morale biti normalno dostopne, medtem ko morate, da se vam izrišejo grafi, kodo le-teh označiti in jo pognati, saj funkcija # 
+# plot klicanja grafov kot spremenljivk ne podpira.                                                                                     #
+
 
 # 1. Naloga
 
@@ -125,11 +128,18 @@ lines(x = casovni_razmik,y = obrestne_2, type = "o", col = "blue", pch = 16, lwd
 lines(x = casovni_razmik,y = obrestne_4, col = "green", type = "o", pch = 14, lwd = 3, text(10,5,"1.7.2008", col="green"))
 lines(x = casovni_razmik, y = obrestne_1, type = "o", col = "red", lwd = 3, text(10,4.2,"1.2.2008", col="red"))
 
-
+### Opis obrestnih krivulj: Kronološko prva, rdeča krivulja, je tako imenovana obratna krivulja, saj od 3 mesečnega dospetja naprej, obrestna mera s      ### 
+### povečevanjem dospetja pada. To kaže na negativna pričakovanja na trgih, kjer se bo z nizkimi obrestnimi merami poizkušalo vzpodbuditi potrošnjo.      ###
+### To sovpada s stanjem duha na trgih leta 2008 pred začetkom velike finančne krize. Druga krivulja iz marca 2009 je po tromesečnem dospetju ravna,      ###
+### kar je znak negotovosti na trgu. Tej negotovosti je sledila napoved izboljšanja, saj vidimo da je krivulja 1.7.2008 normalne oblike in napoveduje     ###
+### stabilno obdobje z inflacijo, kar povečuje višino obrestne mere, glede na dospelost. Vendar pa so se te napovedi, kot je razvidno iz prejšnega grafa, ###
+### izkazale za napačne, saj je obrestna mera tako s 6 , kot tudi 12 mesečno dospelostjo, proti koncu leta 2008 drastično padla.                         ###
 
 #3. naloga
 
-#a
+## Podnaloga a
+
+### Terminsko obrestno mero sem izračunal vektorsko in vektor dodal, kot stolpec "terminska_6x12", tabeli tabela_zdruzena.
 
 sest <- as.numeric(tabela_zdruzena$`6m`)
 leto <- as.numeric(tabela_zdruzena$`12m`)
@@ -139,7 +149,9 @@ terminska_6x12 <- 2*((rep(1,36) + 1*leto)/(rep(1,36) + 1/2*sest)-rep(1,36))
 
 tabela_zdruzena <- cbind(tabela_zdruzena,terminska_6x12)
 
-#b
+# Podnaloga b
+
+### Primerjavo med polletnimi obrestnimi merami in terminskimi obrestnimi merami tipa (6x12) sem prikazal v tabeli tabela_primerjava.                                                                                                        
 
 terminska_primerjava <- terminska_6x12[1:30]
 
@@ -151,7 +163,8 @@ tabela_primerjava <- cbind(tabela_primerjava,terminska_primerjava)
 tabela_primerjava <- tabela_primerjava[,-2]
 colnames(tabela_primerjava) <- c("Euribor6m", "Napoved6m")
 
-#c
+## Podnaloga c
+
 
 prim8 <- tabela_primerjava[1:6,]
 
@@ -159,6 +172,7 @@ prim9 <- tabela_primerjava[7:18,]
 
 prim10 <- tabela_primerjava[19:30,] 
 
+### V grafu "graf_napoved_skupni" je primerjava obrestnih mer s napovedanimi terminskimi obrestnimi merami za celotno proučevano obdobje.
 
 graf_napoved_skupni <- plot(x = as.numeric(prim8$Napoved6m), y = as.numeric(prim8$Euribor6m), 
                             ylim = c(min(1),max(5.6)),xlim = c(min(1),max(5.6)), 
@@ -170,6 +184,9 @@ abline(0,1, col = "grey",lwd = 2)
 abline(lm(as.numeric(tabela_primerjava$Euribor6m)~ as.numeric(tabela_primerjava$Napoved6m)),lwd = 2, col = "black")
 legend('bottomright', c("2008", "2009", "2010"), pch = 16, col = c("red", "blue", "green"))
 
+## Podnaloga d
+
+### V grafu "graf_napoved_08" je primerjava obrestnih mer s napovedanimi terminskimi obrestnimi merami za leto 2008.
 
 graf_napoved_08 <- plot(x = as.numeric(prim8$Napoved6m), 
                         y = as.numeric(prim8$Euribor6m), 
@@ -183,6 +200,9 @@ graf_napoved_08 <- plot(x = as.numeric(prim8$Napoved6m),
                         ylab = "Dejanska obrestna mera")
 abline(0,1, col = "grey",lwd = 2) 
 abline(lm(as.numeric(prim8$Euribor6m)~ as.numeric(prim8$Napoved6m)),lwd = 2, col = "black")
+
+
+### V grafu "graf_napoved_09" je primerjava obrestnih mer s napovedanimi terminskimi obrestnimi merami za leto 2009.
 
 
 graf_napoved_09 <- plot(x = as.numeric(prim9$Napoved6m), 
@@ -199,6 +219,9 @@ abline(0,1, col = "grey",lwd = 2)
 abline(lm(as.numeric(prim9$Euribor6m)~ as.numeric(prim9$Napoved6m)),lwd = 2, col = "black")
 
 
+### V grafu "graf_napoved_10" je primerjava obrestnih mer s napovedanimi terminskimi obrestnimi merami za leto 2010.
+
+
 graf_napoved_10 <- plot(x = as.numeric(prim10$Napoved6m), 
                         y = as.numeric(prim10$Euribor6m),
                         ylim = c(min(0.9),max(1.3)),
@@ -213,5 +236,12 @@ abline(0,1, col = "grey",lwd = 2)
 abline(lm(as.numeric(prim10$Euribor6m)~ as.numeric(prim10$Napoved6m)),lwd = 2, col = "black")
 
 
+## Podnaloga e
+
+### Da bi hipoteza pričakovanj trga držala, bi morale biti točke porazdeljene v bližini simetrale lihih kvadrantov oz. bi tam morala biti regresijska ###
+### premica. Empirični podatki hipoteze z izjemo leta 2009, ne potrjujejo. Kar se tiče leta 2008, je drastično višje obrestne mere od napovedanih     ###
+### mogoče povezati z padajočo krivuljo časovnih struktur obrestnih mer v začetku leta 2008 nato pa njeni normalizaciji v drugi polovici istega leta  ###
+### (Glej nalogo 2). V letu 2009 je ujemanje z izjemo nekaj mesecev dokaj dobro, kar kaže na stabilizacijo trga. V letu 2010 pa empirični podatki     ###
+### hipoteze ponovno ne potrjujejo, saj je napovedana terminska obrestna mera nižja od kasnejše dejanske. ###
 
 
