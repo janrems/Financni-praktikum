@@ -1,6 +1,12 @@
 
 
-#naloga 1
+#PRVA DOMAČA NALOGA
+
+# 1. Naloga
+
+## Podnaloga a
+
+###Tu pridobim podatke in jih zložim v tabele za vsako leto posebej
 
 tabela_08 <- read_csv2("podatki/hist_EURIBOR_2008.csv") %>% t() %>% data.frame()
 
@@ -19,6 +25,10 @@ colnames(tabela_10) <- as.character(unname(unlist(tabela_10[1,])))
 tabela_08 <- tabela_08[-1,]
 tabela_09 <- tabela_09[-1,]
 tabela_10 <- tabela_10[-1,]
+
+##Podnaloga b
+
+### S for zankami in regularni izrazi izluščim le prve delovnike v mesecih
 
 prvi_dnevi_08 <- c(rownames(tabela_08)[1])
 mesec <- "01"
@@ -58,6 +68,8 @@ for (dan in rownames(tabela_10)){
 tabela_10 <- tabela_10[prvi_dnevi_10,]
 tabela_10 <- tabela_10[-13,]
 
+###Tabele različnih let združim v eno, pretvorim vsebino v vektorja tipa "character" in spremenim vrstico ki ima za decimalke vejice
+
 tabela_zdruzena <- rbind(tabela_08,tabela_09,tabela_10)
 
 tabela_zdruzena[] <- lapply(tabela_zdruzena, as.character)
@@ -67,28 +79,43 @@ for(i in 1:15){
 }
 
 
+## Podnaloga c
+### Vrednosti polletne in letne obrestne mere zapišem kot časovne vrste
+
+
 mesecna6 <- as.numeric(tabela_zdruzena$`6m`) %>% ts(start = c(2008,1), end = c(2010,12), frequency = 12)
 
 mesecna12 <- as.numeric(tabela_zdruzena$`12m`) %>% ts(start = c(2008,1), end = c(2010,12), frequency = 12)
 
   
-  
+### Graf 6 mesečne in 12 mesečne obrestne mere tekom izbranega obdobja
+
 graf_1 <- ts.plot(mesecna6, mesecna12,
         gpars=list(xlab="Leto", ylab="Obrestna mera", col = c("blue", "red"), lwd = 3))
         legend('topright', c("6 mesecna obrestna mera", "12 mesecna obrestna mera"), lty = 1, col = c("blue", "red"), lwd = 3)
 
-#Naloga 2
 
-zanimivi_datumi <- c("01/02/2008","03/03/2008","01/03/2010")
+# Naloga 2
+        
+## Podnaloga a
+
+### Vektor zanimivih datumov              
+
+zanimivi_datumi <- c("01/02/2008","03/03/2008","01/07/2010")
+
+## Podnaloga b
+
+### Naredim vektor kjer zaradi neenakih časovnih intervalov teden izrazim kot četrtino meseca
 
 casovni_razmik <- c(0.25, 0.5, 0.75, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+
+### Vrednosti obrestnih mer z različnimi dospetji, ob izbranih zanimivih datumih
+
 obrestne_1 <- as.numeric(unname(unlist(tabela_zdruzena[2,])))
 obrestne_2 <-as.numeric(unname(unlist(tabela_zdruzena[3,])))
-obrestne_3 <- as.numeric(unname(unlist(tabela_zdruzena[27,])))
 obrestne_4 <- as.numeric(unname(unlist(tabela_zdruzena[7,])))
 
-tabela_datumi <- data.frame(casovni_razmik,obrestne_1,obrestne_2, obrestne_3)
-tabela_datumi1 <- melt(tabela_zdruzena)
+### Graf časovne strukture obrestnih mer
 
 graf_1.2.08 <- plot(x = casovni_razmik, y = obrestne_1, type = "o", 
                     ylim = c(min(4),max(5.5)), 
