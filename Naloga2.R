@@ -66,7 +66,7 @@ Fs <- aggregateDist("recursive", model.freq = "poisson",
 
 ###Podnaloga d
 
-upanje_Fs <- as.numeric(knots(Fs) %*% diff(Fs))
+upanje_Fs <- mean(Fs)
 
 varianca_Fs <- as.numeric(knots(Fs)^2 %*% diff(Fs)) - upanje_Fs^2
 
@@ -94,8 +94,24 @@ for (i in vektor_N){
 upanje_S <- mean(vektor_S)
 
 disperzija_S <- var(vektor_S)
+
+#Vrednosti obeh se dobro ujemata.
   
 
 ###Podnaloga c
 
-tvegana_vrednost2 <- VaR(ecdf(vektor_S),0.995)  
+tvegana_vrednost2 <- sort(vektor_S)[9950]
+
+#Vrednosti se dobro ujemata
+
+
+###Podnaloga d
+plot(Fs)
+plot(ecdf(vektor_S), col = "red", lwd = 3, add = TRUE)
+legend('bottomright', 
+       legend = c('Panjerjev algoritem', 'Monte Carlo simulacija'),
+       col = c('black', 'red'),
+       lty=1:2, cex=0.75)
+
+
+
