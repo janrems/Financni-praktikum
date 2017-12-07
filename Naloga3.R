@@ -58,10 +58,25 @@ binomski <- function(S0, u, d, U, R, T1, type, N){
 monte <- function(S0, u, d, U, R, T1, type, N){
   p <- (1+R-d)/(u-d)
   drevo <- matrix(rbinom(U*N,1,p),N,U)
+  drevo[drevo == 1] <- u
+  drevo[drevo == 0] <- d
   
+  drevo <- t(apply(drevo,1, cumprod))
+  
+  vrednosti <- cbind(S0, S0*drevo)
+  izplacila <- apply(vrednosti,1, function(x) izplacilo(x,T1,type))
+  premija_opcije <- mean(izplacila)/(1+R)^U
+  
+  return(premija_opcije)
   
 }
 
+sim1 <- monte(60,1.05,0.95,15,0.01,8,"put",10) 
+sim2 <- monte(60,1.05,0.95,15,0.01,8,"put",100) 
+sim3 <- monte(60,1.05,0.95,15,0.01,8,"put",1000) 
+
+
+##Naloga 3
 
 
 
