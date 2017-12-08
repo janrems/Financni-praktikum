@@ -31,22 +31,29 @@ izplacilo <- function(vektor, T1, type){
 
 ###Podnaloga a
 
-binomski <- function(S0, u, d, U, R, T1, type, N){
-  E <- 0
+binomski <- function(S0, u, d, U, R, T1, type){
+  
   drevo <- hcube(rep(2,U), translation = -1)
   p = (1+R-d)/(u-d)
-  for (i in c(1:2^U)){
-    vrsta <- c(S0)
-    P = p^(sum(drevo[i,]))* (1-p)^(U-sum(drevo[i,]))
-    for(j in c(1:U)){
-      vrsta[j+1] <- vrsta[j]* (u*drevo[i,j] + (1-drevo[i,j])*d)
-      
-    }
+  
+  k <- rowSums(drevo)
+  
     
-    S <- izplacilo(vrsta, T1, type)
-    E <- E + P*S
+  p_bin = p^k* (1-p)^(U-k)
+  drevo[drevo == 0] <- d
+  drevo[drevo == 1] <- u
+  
+  drevo <- t(apply(drevo,1,cumprod))
+  vrednosti <- cbind(S0,S0*drevo)
+  
+  izplacila <- apply(vrednosti,1,function(x) izplacilo(x,T1,type))
+  
+  
+  
+  
+  E <- izplacila %*% p_bin
     
-  }
+  
   
   return(E/(1+R)^U)  
     
@@ -77,6 +84,89 @@ sim3 <- monte(60,1.05,0.95,15,0.01,8,"put",1000)
 
 
 ##Naloga 3
+
+N1 <- c()
+N2 <- c()
+N3 <- c()
+M <- 100
+for (k in c(1:M)){
+    N1 <- c(N1,monte(60,1.05,0.95,15,0.01,8,"put",10))
+    N2 <- c(N2,monte(60,1.05,0.95,15,0.01,8,"put",100))
+    N3 <- c(N3,monte(60,1.05,0.95,15,0.01,8,"put",1000))
+    }
+
+premija_binom <- binomski(60,1.05,0.95,15,0.01,8,"put")
+
+###N = 10
+povp1 <- mean(N1)
+
+odklon1 <- sqrt(var(N1))
+
+h1 <- hist(N1,
+           xlim = c(0,10),
+           main = "Monte Carlo: N = 10",
+           xlab = "Premija",
+           ylab = "Frekvenca",
+           col = "yellow"
+           )
+abline(v = povp1,col= "green",lwd = 2)
+abline(v = premija_binom, col = "red", lty = 2)
+arrows(x0 = povp1,y0 = 0, x1 = povp1 + odklon1, col = "green",length = 0.1,lwd = 2)
+arrows(x0 = povp1,y0 = 0, x1 = povp1 - odklon1, col = "green",length = 0.1,lwd = 2)
+
+legend("topright",
+       legend = c("Monte Carlo", "Analiza modela"),
+       col = c("green","red"),
+       lty = c("solid","dashed"),
+       cex = 0.8)
+
+
+###N = 100
+povp2 <- mean(N2)
+
+odklon2 <- sqrt(var(N2))
+
+h2 <- hist(N2,
+           xlim = c(0,10),
+           main = "Monte Carlo: N = 100",
+           xlab = "Premija",
+           ylab = "Frekvenca",
+           col = "yellow"
+)
+abline(v = povp2,col= "green",lwd = 2)
+abline(v = premija_binom, col = "red", lty = 2)
+arrows(x0 = povp2,y0 = 0, x1 = povp2 + odklon2, col = "green",length = 0.1,lwd = 2)
+arrows(x0 = povp2,y0 = 0, x1 = povp2 - odklon2, col = "green",length = 0.1,lwd = 2)
+
+legend("topright",
+       legend = c("Monte Carlo", "Analiza modela"),
+       col = c("green","red"),
+       lty = c("solid","dashed"),
+       cex = 0.8)
+
+
+###N = 1000
+povp3 <- mean(N3)
+
+odklon3 <- sqrt(var(N3))
+
+h3 <- hist(N3,
+           xlim = c(0,10),
+           main = "Monte Carlo: N = 1000",
+           xlab = "Premija",
+           ylab = "Frekvenca",
+           col = "yellow"
+)
+abline(v = povp3,col= "green",lwd = 2)
+abline(v = premija_binom, col = "red", lty = 2)
+arrows(x0 = povp3,y0 = 0, x1 = povp3 + odklon3, col = "green",length = 0.1,lwd = 2)
+arrows(x0 = povp3,y0 = 0, x1 = povp3 - odklon3, col = "green",length = 0.1,lwd = 2)
+
+legend("topright",
+       legend = c("Monte Carlo", "Analiza modela"),
+       col = c("green","red"),
+       lty = c("solid","dashed"),
+       cex = 0.8)
 
 
 
