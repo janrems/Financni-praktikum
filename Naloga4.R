@@ -103,7 +103,7 @@ EG <- function(vrsta,a){
 
 eks_zglajena <- EG(ts,0.5)
 
-napoved <- eks_zglajena[88]
+napoved <- last(eks_zglajena)
 
 
 graf2<- ts.plot(ts, eks_zglajena, xlab='Cas', ylab ='Vrednost zlata v USD', main = 'Casovna vrsta zlata in njeno eksponentno drseno povprečje ', col=c('black', 'red'),lwd = 3)
@@ -128,7 +128,7 @@ optimalen_a <- optimize(eks_MSE,c(0,1),vrsta = ts)
 opt_zglajena <- EG(ts,optimalen_a$minimum)
 
 
-opt_napoved <- opt_zglajena[88]
+opt_napoved <- last(opt_zglajena)
 
 graf2<- ts.plot(ts, opt_zglajena, xlab='Cas', ylab ='Vrednost zlata v USD', main = 'Casovna vrsta zlata in njeno eksponentno drseno povprečje ', col=c('black', 'red'),lwd = 3)
 legend('bottomright', legend = c('Prvotna', 'Eksponentno 0.99 '),col = c("black", "red"),lwd = 1:1, bty = "n")
